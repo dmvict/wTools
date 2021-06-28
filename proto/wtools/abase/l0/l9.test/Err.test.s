@@ -137,8 +137,8 @@ function _errWithArgsIncludedRoutine( test )
   let a = test.assetFor( false );
   a.fileProvider.dirMake( a.abs( '.' ) );
   let locals = { toolsPath : _.module.resolve( 'wTools' ) };
-  let programPath1 = a.path.nativize( a.program( testRoutineWithStrLinesSelect ).programPath );
-  let programPath2 = a.path.nativize( a.program( testRoutineWithoutStrLinesSelect ).programPath );
+  let programPath1 = a.path.nativize( a.program( testRoutineWithStrLinesSelect ).filePath/*programPath*/ );
+  let programPath2 = a.path.nativize( a.program( testRoutineWithoutStrLinesSelect ).filePath/*programPath*/ );
 
   a.shellNonThrowing( `node ${ programPath1 }` );
   a.ready.then( ( op ) =>
@@ -869,11 +869,11 @@ function errorFunctorExternal( test )
   let context = this;
   let visited = [];
   let a = test.assetFor( false );
-  let programPath = a.program( program ).programPath;
+  let filePath/*programPath*/ = a.program( program ).filePath/*programPath*/;
 
   /* */
 
-  a.appStartNonThrowing({ execPath : programPath })
+  a.appStartNonThrowing({ execPath : filePath/*programPath*/ })
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
@@ -923,11 +923,11 @@ function uncaughtError( test )
   let context = this;
   let visited = [];
   let a = test.assetFor( false );
-  let programPath = a.program( program ).programPath;
+  let filePath/*programPath*/ = a.program( program ).filePath/*programPath*/;
 
   /* */
 
-  a.appStartNonThrowing({ execPath : programPath })
+  a.appStartNonThrowing({ execPath : filePath/*programPath*/ })
   .then( ( op ) =>
   {
     test.notIdentical( op.exitCode, 0 );
@@ -963,11 +963,11 @@ function sourceCode( test )
   let context = this;
   let visited = [];
   let a = test.assetFor( false );
-  let programPath = a.program( program ).programPath;
+  let filePath/*programPath*/ = a.program( program ).filePath/*programPath*/;
 
   /* */
 
-  a.appStartNonThrowing({ execPath : programPath })
+  a.appStartNonThrowing({ execPath : filePath/*programPath*/ })
   .then( ( op ) =>
   {
     test.notIdentical( op.exitCode, 0 );
@@ -1010,11 +1010,11 @@ function errorFunctorAttended( test )
   let context = this;
   let visited = [];
   let a = test.assetFor( false );
-  let programPath = a.program( program ).programPath;
+  let filePath/*programPath*/ = a.program( program ).filePath/*programPath*/;
 
   /* */
 
-  a.appStartNonThrowing({ execPath : programPath })
+  a.appStartNonThrowing({ execPath : filePath/*programPath*/ })
   .then( ( op ) =>
   {
     test.notIdentical( op.exitCode, 0 );
@@ -1049,11 +1049,11 @@ function uncaughtErrorBasic( test )
   let context = this;
   let visited = [];
   let a = test.assetFor( false );
-  let programPath = a.program( program ).programPath;
+  let filePath/*programPath*/ = a.program( program ).filePath/*programPath*/;
 
   /* */
 
-  a.appStartNonThrowing({ execPath : programPath })
+  a.appStartNonThrowing({ execPath : filePath/*programPath*/ })
   .then( ( op ) =>
   {
     test.notIdentical( op.exitCode, 0 );
@@ -1080,7 +1080,7 @@ function eventUncaughtErrorBasic( test )
 {
   let context = this;
   let a = test.assetFor( false );
-  let programPath = a.program( program ).programPath;
+  let filePath/*programPath*/ = a.program( program ).filePath/*programPath*/;
   let ready = __.take( null );
 
   ready.then( () => run( 'sync' ) );
@@ -1100,7 +1100,7 @@ function eventUncaughtErrorBasic( test )
     {
 
       test.case = `throwing:${throwing} rethrowing:0 attending:0`;
-      a.forkNonThrowing({ execPath : programPath, args : [ `throwing:${throwing}`, 'rethrowing:0', 'attending:0' ] })
+      a.forkNonThrowing({ execPath : filePath/*programPath*/, args : [ `throwing:${throwing}`, 'rethrowing:0', 'attending:0' ] })
       .then( ( op ) =>
       {
         test.notIdentical( op.exitCode, 0 );
@@ -1133,7 +1133,7 @@ function eventUncaughtErrorBasic( test )
     {
 
       test.case = `throwing:${throwing} rethrowing:1 attending:0`;
-      a.forkNonThrowing({ execPath : programPath, args : [ `throwing:${throwing}`, 'rethrowing:1', 'attending:0' ] })
+      a.forkNonThrowing({ execPath : filePath/*programPath*/, args : [ `throwing:${throwing}`, 'rethrowing:1', 'attending:0' ] })
       .then( ( op ) =>
       {
         test.notIdentical( op.exitCode, 0 );
@@ -1166,7 +1166,7 @@ function eventUncaughtErrorBasic( test )
     {
 
       test.case = `throwing:${throwing} rethrowing:0 attending:1`;
-      a.forkNonThrowing({ execPath : programPath, args : [ `throwing:${throwing}`, 'rethrowing:0', 'attending:1' ] })
+      a.forkNonThrowing({ execPath : filePath/*programPath*/, args : [ `throwing:${throwing}`, 'rethrowing:0', 'attending:1' ] })
       .then( ( op ) =>
       {
         test.identical( op.exitCode, 0 );
@@ -1199,7 +1199,7 @@ function eventUncaughtErrorBasic( test )
     {
 
       test.case = `throwing:${throwing} rethrowing:1 attending:1`;
-      a.forkNonThrowing({ execPath : programPath, args : [ `throwing:${throwing}`, 'rethrowing:1', 'attending:1' ] })
+      a.forkNonThrowing({ execPath : filePath/*programPath*/, args : [ `throwing:${throwing}`, 'rethrowing:1', 'attending:1' ] })
       .then( ( op ) =>
       {
         test.notIdentical( op.exitCode, 0 );
@@ -1296,7 +1296,7 @@ function eventUncaughtErrorOnce( test )
 {
   let context = this;
   let a = test.assetFor( false );
-  let programPath = a.program( program ).programPath;
+  let filePath/*programPath*/ = a.program( program ).filePath/*programPath*/;
   let ready = __.take( null );
 
   // ready.then( () => run( 'once' ) ); /* qqq2 : for Dmytro : switch on later */
@@ -1314,7 +1314,7 @@ function eventUncaughtErrorOnce( test )
     {
 
       test.case = `how:${how}`;
-      a.forkNonThrowing({ execPath : programPath, args : [ `how:${how}` ] })
+      a.forkNonThrowing({ execPath : filePath/*programPath*/, args : [ `how:${how}` ] })
       .then( ( op ) =>
       {
         test.notIdentical( op.exitCode, 0 );
@@ -1379,7 +1379,7 @@ function entryProcedureStack( test )
 {
   let context = this;
   let a = test.assetFor( false );
-  let programPath = a.program( program ).programPath;
+  let filePath/*programPath*/ = a.program( program ).filePath/*programPath*/;
   let ready = __.take( null );
   ready.then( () => run() );
   return ready;
@@ -1394,7 +1394,7 @@ function entryProcedureStack( test )
     {
 
       test.case = `basic`;
-      a.forkNonThrowing({ execPath : programPath, args : [ `how:${how}` ] })
+      a.forkNonThrowing({ execPath : filePath/*programPath*/, args : [ `how:${how}` ] })
       .then( ( op ) =>
       {
         test.identical( op.exitCode, 0 );

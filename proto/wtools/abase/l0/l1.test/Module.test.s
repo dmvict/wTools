@@ -55,11 +55,11 @@ function toolsPathGetProgram( test )
   let a = test.assetFor( false );
   let program = a.program( programRoutine );
 
-  console.log( 'programPath', program.programPath );
+  console.log( 'filePath/*programPath*/', program.filePath/*programPath*/ );
   test.identical( program.group.locals.toolsPath, __.path.nativize( _.module.toolsPathGet() ) );
   test.true( __.strBegins( __.path.normalize( program.group.locals.toolsPath ), __.path.normalize( __dirname + '/../../../..' ) ) );
 
-  return a.forkNonThrowing({ execPath : program.programPath })
+  return a.forkNonThrowing({ execPath : program.filePath/*programPath*/ })
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );

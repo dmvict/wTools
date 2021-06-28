@@ -28,8 +28,8 @@ function includePerformance( test )
 {
   let context = this;
   let a = test.assetFor( false );
-  let singlePath = a.program( single ).programPath;
-  let multiplePath = a.program( multiple ).programPath;
+  let singlePath = a.program( single ).filePath/*programPath*/;
+  let multiplePath = a.program( multiple ).filePath/*programPath*/;
   let t1;
 
   /* */
