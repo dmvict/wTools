@@ -5241,7 +5241,8 @@ requireSameModuleTwice.description =
 /*
 
   let _ToolsPath_ = a.path.nativize( _.module.toolsPathGet() );
-  let programRoutine1Path = a.program({ routine : programRoutine1, locals : { _ToolsPath_ } }).filePath/*programPath*/;
+  let programRoutine1Path = a.program({ routine : programRoutine1, locals : { _ToolsPath_ } }).filePath;
+  // let programRoutine1Path = a.program({ routine : programRoutine1, locals : { _ToolsPath_ } }).programPath;
 
 */
 
