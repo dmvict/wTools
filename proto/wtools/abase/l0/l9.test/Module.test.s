@@ -5223,7 +5223,6 @@ function requireSameModuleTwice( test )
   function withInclude()
   {
     const _ = require( toolsPath );
-    debugger;
     _.include( 'withInclude' );
     if( _.included )
     throw new Error( 'Module withInclude is included for the second time' );
@@ -5241,7 +5240,7 @@ requireSameModuleTwice.description =
 /*
 
   let _ToolsPath_ = a.path.nativize( _.module.toolsPathGet() );
-  let programRoutine1Path = a.program({ routine : programRoutine1, locals : { _ToolsPath_ } }).filePath/*programPath*/;
+  let programRoutine1Path = a.program({ routine : programRoutine1, locals : { _ToolsPath_ } }).filePath;
 
 */
 
@@ -5822,34 +5821,38 @@ function requireModuleProcess( test )
 
 //
 
-function moduleLoadingExperiment( test )
+function moduleBinProblem( test )
 {
   let a = test.assetFor( false );
 
-  a.shell.predefined.sync = 1;
-  a.shell.predefined.ready = null;
+  // a.shell.predefined.sync = 1;
+  // a.shell.predefined.ready = null;
 
   /* - */
 
-  a.ready.then( () =>
-  {
+  // a.ready.then( () =>
+  // {
     a.fileProvider.dirMake( a.abs( '.' ) );
-    a.shell( 'git init' );
+    a.shell({ execPath : 'git init', sync : 1 });
+    debugger;
     require( 'wdeasync' );
     return test.true( true );
-  });
-  a.ready.then( () =>
-  {
-    test.true( a.fileProvider.fileExists( a.abs( '.git' ) ) );
+    debugger;
     return null;
-  });
+  // });
+  // a.ready.then( () =>
+  // {
+  //   // test.true( a.fileProvider.fileExists( a.abs( '.git' ) ) );
+  //   return test.true( true );
+  //   // return null;
+  // });
 
   /* - */
 
   return a.ready;
 }
 
-moduleLoadingExperiment.description =
+moduleBinProblem.description =
 `
 Demonstrate problem 'Module did not self-register'
 Fails only on njs v10
@@ -5926,7 +5929,7 @@ const Proto =
     moduleFileExportExternal,
 
     requireModuleProcess,
-    // moduleLoadingExperiment, /* xxx2 : switch on */
+    moduleBinProblem,
 
   }
 

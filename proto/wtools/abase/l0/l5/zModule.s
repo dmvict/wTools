@@ -1828,8 +1828,8 @@ function _fileIncludeSingle( downPath, filePath )
   if( !hasModuleFileDescriptor )
   throw _.err( 'Cant include, routine "require" does not exist.' );
 
-  if( downPath.endsWith( 'secondary1' ) && filePath.endsWith( 'secondary3' ) )
-  debugger;
+  // if( downPath.endsWith( 'secondary1' ) && filePath.endsWith( 'secondary3' ) )
+  // debugger;
 
   let normalizedPath = _.path.nativizeMinimal( filePath );
   let moduleFile = _.module._fileWithResolvedPathAnyNamespace( downPath );
@@ -1932,13 +1932,39 @@ function _trackingEnable()
 
   ModuleFileNative._resolveFilename = _resolveFilename;
 
-  if( !_realGlobal_.__loadEnvironment )
+  const dlopen = process.dlopen;
+  if( !_realGlobal_._modulingGlobal_ )
   {
     ModuleFileNative._load = _loadEnvironment;
-    _realGlobal_.__loadEnvironment = _loadEnvironment;
+    _realGlobal_._modulingGlobal_ = _global;
+    process.dlopen = dlopen2;
   }
 
   ModuleFileNative.prototype.load = moduleFileLoad;
+
+  // return process.dlopen(module, path.toNamespacedPath(filename));
+
+  /* */
+
+  function dlopen2()
+  {
+    let r;
+    try
+    {
+      r = dlopen.apply( this, arguments );
+    }
+    catch( err )
+    {
+      debugger;
+      // if( err.message === 'Module did not self-register.' )
+      // {
+      //   debugger;
+      //   return undefined;
+      // }
+      throw err;
+    }
+    return r;
+  }
 
   /* */
 
@@ -2005,8 +2031,8 @@ function _trackingEnable()
 
     // if( request.endsWith( 'testing/entry/Main.s' ) )
     // debugger;
-    if( request.endsWith( 'secondary3' ) )
-    debugger;
+    // if( request.endsWith( 'secondary3' ) )
+    // debugger;
 
     if( !parent.universal )
     return;
@@ -2109,12 +2135,45 @@ function _trackingEnable()
 
   /* - */
 
+  function fileShare( moduleFile )
+  {
+    const nativeSourcePath = moduleFile.fileName || moduleFile.id;
+
+    if( nativeSourcePath === '/pro/builder/node_modules/wdeasync/Release/deasync.node' )
+    debugger;
+
+    if( !_.module.filePathIsBin( nativeSourcePath ) )
+    return;
+    debugger;
+    for( let name in _globals_ )
+    {
+      let global = _globals_[ name ];
+      if( global.wTools && global.wTools.module && global.wTools.module.nativeFilesMap )
+      if( !global.wTools.module.nativeFilesMap[ nativeSourcePath ] )
+      {
+        debugger;
+        global.wTools.module.nativeFilesMap[ nativeSourcePath ] = moduleFile;
+      }
+    }
+  }
+
+  /* - */
+
   function moduleFileLoad( nativeSourcePath )
   {
+    let result;
+    let native = this;
+
     loading.counter += 1;
 
     // if( nativeSourcePath.endsWith( 'psl/index.js' ) )
     // debugger;
+    // if( nativeSourcePath === '/pro/builder/node_modules/wdeasync/Release/deasync.node' )
+    // debugger;
+
+    // yyy
+    if( _modulingGlobal_ === _global )
+    fileShare( native );
 
     /*
     ignore includes of other global namespaces
@@ -2124,8 +2183,6 @@ function _trackingEnable()
       return NjsLoad2.apply( this, arguments );
     }
 
-    let result;
-    let native = this;
     let moduleFile = _.module._fileUniversalInit
     ({
       sourcePath : nativeSourcePath,
@@ -2138,6 +2195,9 @@ function _trackingEnable()
     _.assert( native === ModuleFileNative._cache[ moduleFile.nativeSourcePath ] );
     _.assert( native === moduleFile.native );
     _.assert( resolving.resolvedPath === nativeSourcePath );
+
+    if( nativeSourcePath === "/pro/builder/node_modules/wdeasync/index.js" )
+    debugger;
 
     try
     {
@@ -2335,6 +2395,7 @@ var ModuleExtension =
   filePathAmend,
   filePathRemove,
   filePathGet,
+  filePathIsBin : __.module.filePathIsBin,
 
   // resolve
 
