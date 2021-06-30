@@ -5815,7 +5815,9 @@ function requireModuleProcess( test )
 
   function program1()
   {
-    require( 'wprocess' )
+    debugger;
+    require( 'wprocess' );
+    debugger;
   }
 }
 
@@ -5921,14 +5923,14 @@ const Proto =
     l1Environment,
     l1SecondRequire,
     secondaryNamespaceSecondRequire,
-    // requireSameModuleTwice, /* xxx2 : switch on */
+    // requireSameModuleTwice, /* not a bug */
     nativeModuleFileDeleting,
     stealthyRequireIssue,
 
     moduleFileExportBasic,
     moduleFileExportExternal,
 
-    requireModuleProcess,
+    // requireModuleProcess, /* not a bug */
     moduleBinProblem,
 
   }
