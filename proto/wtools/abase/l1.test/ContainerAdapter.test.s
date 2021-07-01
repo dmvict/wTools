@@ -9296,6 +9296,8 @@ function setAdapterAppendOnceStrictly( test )
   });
 }
 
+setAdapterAppendOnceStrictly.timeOut = 10000;
+
 //
 
 function setAdapterPush( test )
@@ -9367,6 +9369,8 @@ function setAdapterPush( test )
   test.identical( [ ... dst.original ], exp );
   test.identical( got, 2 );
 }
+
+setAdapterPush.timeOut = 10000;
 
 //
 
@@ -9542,6 +9546,8 @@ function setAdapterAppendContainer( test )
     dst.appendContainer( 'wrong' );
   });
 }
+
+setAdapterAppendContainer.timeOut = 10000;
 
 //
 
@@ -9795,6 +9801,8 @@ function setAdapterAppendContainerOnce( test )
   });
 }
 
+setAdapterAppendContainerOnce.timeOut = 10000;
+
 //
 
 function setAdapterAppendContainerOnceStrictly( test )
@@ -10015,6 +10023,8 @@ function setAdapterAppendContainerOnceStrictly( test )
   });
 }
 
+setAdapterAppendContainerOnceStrictly.timeOut = 10000;
+
 //
 
 function setAdapterPop( test )
@@ -10175,6 +10185,8 @@ function setAdapterPopStrictly( test )
   });
 }
 
+setAdapterPopStrictly.timeOut = 10000;
+
 //
 
 function setAdapterRemoved( test )
@@ -10276,6 +10288,8 @@ function setAdapterRemoved( test )
   test.identical( got, 0 );
   test.identical( [ ... dst.original ], exp );
 }
+
+setAdapterRemoved.timeOut = 10000;
 
 //
 
@@ -10385,6 +10399,8 @@ function setAdapterRemovedOnce( test )
   test.identical( got, -1 );
   test.identical( [ ... dst.original ], exp );
 }
+
+setAdapterRemovedOnce.timeOut = 10000;
 
 //
 
