@@ -5869,7 +5869,7 @@ function requireElectronProblem( test )
 
   a.program({ entry : program1, filePath : a.abs( 'program.js' ) });
 
-  let packagedPath = 
+  let packagedPath =
   {
     'win32' : 'dist/win-unpacked/Encore.exe',
     'darwin' : 'dist/mac/test.app/Contents/MacOS/test',
@@ -5881,11 +5881,11 @@ function requireElectronProblem( test )
     name : 'test',
     version : '0.0.1',
     main : 'program.js',
-    scripts : 
+    scripts :
     {
       postinstall : "electron-builder build --publish never --dir true"
     },
-    devDependencies : 
+    devDependencies :
     {
       'electron' : '8.2.5',
       'electron-builder': '22.6.0'
@@ -5893,13 +5893,13 @@ function requireElectronProblem( test )
   }
 
   a.fileProvider.fileWrite({ filePath : a.abs( 'package.json' ), data : packageJson, encoding : 'json' })
-  
+
   /* */
 
   a.shell( 'npm i' )
-  a.shell({ execPath : `${packagedPath[ process.platform]}` })
-  // a.shell( `${packagedPath[ process.platform]} --inspect-brk`) /* Vova: use to debug in chrome* /
-  .then( ( op ) => 
+  a.shell({ execPath : `${packagedPath[ process.platform ]}` })
+  // a.shell( `${packagedPath[ process.platform]} --inspect-brk`) /* Vova: use to debug in chrome*/
+  .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
     test.false( _.strHas( op.output, 'Assertion fails' ) )
@@ -5915,6 +5915,7 @@ function requireElectronProblem( test )
     const _ = require( toolsPath );
     debugger
     var electron = require( 'electron' );
+    debugger;
     process.exit();
   }
 }
@@ -5993,7 +5994,7 @@ const Proto =
     // requireModuleProcess, /* not a bug */
     moduleBinProblem,
 
-    requireElectronProblem
+    requireElectronProblem,
 
   }
 

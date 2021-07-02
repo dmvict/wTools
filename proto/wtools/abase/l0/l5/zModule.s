@@ -634,6 +634,8 @@ function _fileUniversalAssociateFile( upFile, downFile )
   files could belong to different environments!
   */
 
+  if( !_.module.fileUniversalIs( upFile ) )
+  debugger;
   _.assert( _.module.fileUniversalIs( upFile ) );
   _.assert( _.module.fileUniversalIs( downFile) );
 
@@ -2071,6 +2073,7 @@ function _trackingEnable()
       _.assert( 0, 'not tested' ); /* xxx : qqq : cover? */
     }
 
+    if( native.universal ) /* xxx2 : yyy : investigate test routine requireElectronProblem */
     if( _.module.fileNativeParent( native ) !== parent )
     {
       // if( native.universal.sourcePath.endsWith( 'wFiles' ) )
