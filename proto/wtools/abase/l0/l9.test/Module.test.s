@@ -5861,6 +5861,66 @@ Fails only on njs v10
 Maybe, the reason of the problem is loading native module from hard drive, not from cache
 `
 
+//
+
+function requireElectronProblem( test )
+{
+  let a = test.assetFor( false );
+
+  a.program({ entry : program1, filePath : a.abs( 'program.js' ) });
+
+  let packagedPath = 
+  {
+    'win32' : 'dist/win-unpacked/Encore.exe',
+    'darwin' : 'dist/mac/test.app/Contents/MacOS/test',
+    'linux' : 'dist/linux-unpacked/test',
+  }
+
+  let packageJson =
+  {
+    name : 'test',
+    version : '0.0.1',
+    main : 'program.js',
+    scripts : 
+    {
+      postinstall : "electron-builder build --publish never --dir true"
+    },
+    devDependencies : 
+    {
+      'electron' : '8.2.5',
+      'electron-builder': '22.6.0'
+    }
+  }
+
+  a.fileProvider.fileWrite({ filePath : a.abs( 'package.json' ), data : packageJson, encoding : 'json' })
+  
+  /* */
+
+  a.shell( 'npm i' )
+  a.shell({ execPath : `${packagedPath[ process.platform]}` })
+  // a.shell( `${packagedPath[ process.platform]} --inspect-brk`) /* Vova: use to debug in chrome* /
+  .then( ( op ) => 
+  {
+    test.identical( op.exitCode, 0 );
+    test.false( _.strHas( op.output, 'Assertion fails' ) )
+    return null;
+  })
+
+  return a.ready;
+
+  /* */
+
+  function program1()
+  {
+    const _ = require( toolsPath );
+    debugger
+    var electron = require( 'electron' );
+    process.exit();
+  }
+}
+
+requireElectronProblem.routineTimeOut = 60000;
+
 // --
 // test suite declaration
 // --
@@ -5932,6 +5992,8 @@ const Proto =
 
     // requireModuleProcess, /* not a bug */
     moduleBinProblem,
+
+    requireElectronProblem
 
   }
 
