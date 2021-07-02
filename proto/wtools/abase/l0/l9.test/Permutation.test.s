@@ -555,6 +555,8 @@ function eachSample_( test )
 
 }
 
+eachSample_.timeOut = 15000;
+
 //
 
 function eachSampleEmptyContainers( test )

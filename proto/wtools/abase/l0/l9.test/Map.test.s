@@ -7219,6 +7219,8 @@ function mapButIgnoringUndefines_DstMapMap( test )
   test.close( 'srcMap - array' );
 }
 
+mapButIgnoringUndefines_DstMapMap.timeOut = 10000;
+
 //
 
 function mapButIgnoringUndefines_ButMapIsVector( test )
@@ -15690,6 +15692,8 @@ function assertMapHasNone( test )
   var screenMaps = { 'a' : 13, 'b' : 77, 'c' : 3, 'name' : 'Hello' };
   test.shouldThrowErrorSync( () => _.map.assertHasNone( srcMap, screenMaps ) );
 }
+
+assertMapHasNone.timeOut = 10000;
 
 //
 
