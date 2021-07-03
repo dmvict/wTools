@@ -229,6 +229,8 @@ function _errWithArgsIncludedRoutine( test )
   }
 }
 
+_errWithArgsIncludedRoutine.timeOut = 20000;
+
 //
 
 function _errArgsHasError( test )
@@ -243,6 +245,8 @@ function _errArgsHasError( test )
   test.identical( _.strCount( errStr, 'at _errTrowsError' ), 1 );
 
 }
+
+_errArgsHasError.timeOut = 10000;
 
 //
 
@@ -956,6 +960,8 @@ function uncaughtError( test )
 
 }
 
+uncaughtError.timeOut = 10000;
+
 //
 
 function sourceCode( test )
@@ -987,6 +993,8 @@ function sourceCode( test )
   }
 
 }
+
+sourceCode.timeOut = 10000;
 
 //
 
@@ -1036,6 +1044,7 @@ function errorFunctorAttended( test )
 
 }
 
+errorFunctorAttended.timeOut = 10000;
 errorFunctorAttended.description =
 `
 Njs stingify inherited error
