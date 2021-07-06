@@ -2142,12 +2142,8 @@ function _trackingEnable()
   {
     const nativeSourcePath = moduleFile.fileName || moduleFile.id;
 
-    if( nativeSourcePath === '/pro/builder/node_modules/wdeasync/Release/deasync.node' )
-    debugger;
-
     if( !_.module.filePathIsBin( nativeSourcePath ) )
     return;
-    debugger;
     for( let name in _globals_ )
     {
       let global = _globals_[ name ];
@@ -2168,11 +2164,6 @@ function _trackingEnable()
     let native = this;
 
     loading.counter += 1;
-
-    // if( nativeSourcePath.endsWith( 'psl/index.js' ) )
-    // debugger;
-    // if( nativeSourcePath === '/pro/builder/node_modules/wdeasync/Release/deasync.node' )
-    // debugger;
 
     // yyy
     if( _modulingGlobal_ === _global )
@@ -2198,9 +2189,6 @@ function _trackingEnable()
     _.assert( native === ModuleFileNative._cache[ moduleFile.nativeSourcePath ] );
     _.assert( native === moduleFile.native );
     _.assert( resolving.resolvedPath === nativeSourcePath );
-
-    if( nativeSourcePath === "/pro/builder/node_modules/wdeasync/index.js" )
-    debugger;
 
     try
     {
