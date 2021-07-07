@@ -5918,14 +5918,133 @@ function requireElectronProblem( test )
   function program1()
   {
     const _ = require( toolsPath );
-    debugger
     var electron = require( 'electron' );
-    debugger;
     process.exit();
   }
 }
 
 requireElectronProblem.routineTimeOut = 60000;
+
+//
+
+function requireProductionModuleProblem( test )
+{
+  const a = test.assetFor( false );
+
+  /* */
+
+  const packageJson = { dependencies : { 'wgittools' : 'stable' } };
+  a.fileProvider.fileWrite({ filePath : a.abs( 'package.json' ), data : packageJson, encoding : 'json' })
+
+  const programInclude = a.path.nativize( a.program({ entry : program1, filePath : a.abs( 'program1.js' ) }).filePath );
+  const programRequire = a.path.nativize( a.program({ entry : program2, filePath : a.abs( 'program2.js' ) }).filePath );
+
+  /* - */
+
+  a.shell( 'npm i --production' );
+
+  /* - */
+
+  a.ready.then( () =>
+  {
+    test.open( 'with unlinked module directory' );
+    return null;
+  });
+
+  a.shell( `node ${ programInclude }` )
+  .then( ( op ) =>
+  {
+    test.case = 'require file by routine `include`';
+    test.identical( op.exitCode, 0 );
+    test.identical( op.output, 'Module `GitTools` succefully loaded.\n' );
+    return null;
+  });
+
+  /* */
+
+  a.shell( `node ${ programRequire }` )
+  .then( ( op ) =>
+  {
+    test.case = 'require file directly';
+    test.identical( op.exitCode, 0 );
+    test.identical( op.output, 'Module `GitTools` succefully loaded.\n' );
+    return null;
+  });
+
+  a.ready.then( () =>
+  {
+    test.close( 'with unlinked module directory' );
+    return null;
+  });
+
+  /* - */
+
+  a.ready.then( () =>
+  {
+    test.open( 'with linked module directory' );
+    return null;
+  });
+
+  a.ready.then( () =>
+  {
+      a.fileProvider.softLink
+      ({
+        dstPath : a.abs( 'node_modules/wgittools/node_modules/wgittools' ),
+        srcPath : `hd://${ a.abs( 'node_modules/wgittools' ) }`,
+        makingDirectory : 1,
+        rewritingDirs : 1,
+      });
+    return null;
+  });
+
+  a.shell( `node ${ programInclude }` )
+  .then( ( op ) =>
+  {
+    test.case = 'require file by routine `include`';
+    test.identical( op.exitCode, 0 );
+    test.identical( op.output, 'Module `GitTools` succefully loaded.\n' );
+    return null;
+  });
+
+  a.shell( `node ${ programRequire }` )
+  .then( ( op ) =>
+  {
+    test.case = 'require file directly';
+    test.identical( op.exitCode, 0 );
+    test.identical( op.output, 'Module `GitTools` succefully loaded.\n' );
+    return null;
+  });
+
+  a.ready.then( () =>
+  {
+    test.close( 'with module directory' );
+    return null;
+  });
+
+  /* - */
+
+  return a.ready;
+
+  /* */
+
+  function program1()
+  {
+    const _ = require( toolsPath );
+    _.include( 'wGitTools' );
+    console.log( 'Module `GitTools` succefully loaded.' );
+  }
+
+  /* */
+
+  function program2()
+  {
+    const _ = require( 'wgittools' );
+    console.log( 'Module `GitTools` succefully loaded.' );
+  }
+}
+
+requireProductionModuleProblem.experimental = 1;
+
 
 // --
 // test suite declaration
@@ -6000,6 +6119,7 @@ const Proto =
     moduleBinProblem,
 
     requireElectronProblem,
+    requireProductionModuleProblem,
 
   }
 
