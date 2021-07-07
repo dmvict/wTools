@@ -5871,7 +5871,7 @@ function requireElectronProblem( test )
 
   let packagedPath =
   {
-    'win32' : 'dist/win-unpacked/Encore.exe',
+    'win32' : 'dist/win-unpacked/test.exe',
     'darwin' : 'dist/mac/test.app/Contents/MacOS/test',
     'linux' : 'dist/linux-unpacked/test',
   }
@@ -5897,6 +5897,11 @@ function requireElectronProblem( test )
   /* */
 
   a.shell( 'npm i' )
+  a.ready.then( () =>
+  {
+    debugger;
+    return null;
+  });
   a.shell({ execPath : `${packagedPath[ process.platform ]}` })
   // a.shell( `${packagedPath[ process.platform]} --inspect-brk`) /* Vova: use to debug in chrome*/
   .then( ( op ) =>
