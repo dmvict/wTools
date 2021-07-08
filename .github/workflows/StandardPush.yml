@@ -13,7 +13,7 @@ jobs :
     strategy :
       fail-fast : false
       matrix :
-        os : [ ubuntu-latest, windows-latest, macos-latest ]
+        os : [ windows-latest, macos-latest ]
         node-version : [ 14.x ]
     if : "!startsWith( github.event.head_commit.message, 'version' ) && !startsWith( github.event.head_commit.message, '.' )"
     runs-on : ${{ matrix.os }}
@@ -46,4 +46,4 @@ jobs :
     - if : startsWith( matrix.os, 'ubuntu' )
       run : xvfb-run --auto-servernum npm test
     - if : "!startsWith( matrix.os, 'ubuntu' )"
-      run : npm test
+      run : node proto\wtools\abase\l0\l9.test\Module.test.s r:'[requireProductionModuleProblemWithGitTools,requireProductionModuleProblemWithGitToolsAlternative,requireProductionModuleProblemWithGdf]'
