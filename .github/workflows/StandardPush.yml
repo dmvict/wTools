@@ -46,4 +46,4 @@ jobs :
     - if : startsWith( matrix.os, 'ubuntu' )
       run : xvfb-run --auto-servernum npm test
     - if : "!startsWith( matrix.os, 'ubuntu' )"
-      run : node proto\wtools\abase\l0\l9.test\Module.test.s r:'[requireProductionModuleProblemWithGitTools,requireProductionModuleProblemWithGitToolsAlternative,requireProductionModuleProblemWithGdf]'
+      run : node proto/wtools/abase/l0/l9.test/Module.test.s r:'[requireProductionModuleProblemWithGitTools,requireProductionModuleProblemWithGitToolsAlternative,requireProductionModuleProblemWithGdf]'
