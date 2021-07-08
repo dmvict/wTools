@@ -6093,6 +6093,56 @@ requireProductionModuleProblemWithGitTools.experimental = 1;
 
 //
 
+function requireProductionModuleProblemWithGitToolsAlternative( test )
+{
+  const a = test.assetFor( false );
+
+  const packageJson = { dependencies : { 'wgittools' : 'stable' } };
+  a.fileProvider.fileWrite({ filePath : a.abs( 'package.json' ), data : packageJson, encoding : 'json' })
+  const programRequire = a.path.nativize( a.program({ entry : program1, filePath : a.abs( 'program1.js' ) }).filePath );
+
+  /* - */
+
+  a.shell( 'npm i --production' );
+  a.ready.then( () =>
+  {
+    const directories = a.find({ filePath : a.abs( 'node_modules/*/node_modules' ) });
+    console.log( __.entity.exportStringNice( directories ) );
+    const filesMap = Object.create( null );
+    _.each( directories, ( filePath ) =>
+    {
+      filesMap[ filePath ] = a.find( a.abs( 'node_modules', filePath, './' ) );
+    });
+    console.log( __.entity.exportStringNice( filesMap, { levels : 2 } ) );
+    return null;
+  });
+  a.shell( `node ${ programRequire }` )
+  .then( ( op ) =>
+  {
+    test.case = 'require file directly';
+    test.identical( op.exitCode, 0 );
+    test.identical( op.output, 'Module `GitTools` succefully loaded.\n' );
+    return null;
+  });
+
+  /* - */
+
+  return a.ready;
+
+  /* */
+
+  function program1()
+  {
+    require( 'wTools' );
+    require( 'wgittools' );
+    console.log( 'Module `GitTools` succefully loaded.' );
+  }
+}
+
+requireProductionModuleProblemWithGitToolsAlternative.experimental = 1;
+
+//
+
 function requireProductionModuleProblemWithGdf( test )
 {
   const a = test.assetFor( false );
@@ -6214,6 +6264,7 @@ const Proto =
 
     requireElectronProblem,
     requireProductionModuleProblemWithGitTools,
+    requireProductionModuleProblemWithGitToolsAlternative,
     requireProductionModuleProblemWithGdf,
 
   }
