@@ -6061,7 +6061,8 @@ function requireProductionModuleProblemWithGitTools( test )
     const filesMap = Object.create( null );
     _.each( directories, ( filePath ) =>
     {
-      filesMap[ filePath ] = a.find( a.abs( 'node_modules', filePath, './' ) );
+      debugger;
+      filesMap[ filePath ] = a.find( a.abs( 'node_modules', filePath, './*' ) );
     });
     console.log( __.entity.exportStringNice( filesMap, { levels : 2 } ) );
     return null;
@@ -6110,7 +6111,7 @@ function requireProductionModuleProblemWithGdf( test )
     const filesMap = Object.create( null );
     _.each( directories, ( filePath ) =>
     {
-      filesMap[ filePath ] = a.find( a.abs( 'node_modules', filePath, './' ) );
+      filesMap[ filePath ] = a.find( a.abs( 'node_modules', filePath, './*' ) );
     });
     console.log( __.entity.exportStringNice( filesMap, { levels : 2 } ) );
     return null;
