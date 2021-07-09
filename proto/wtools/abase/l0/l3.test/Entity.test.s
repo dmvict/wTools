@@ -2840,7 +2840,9 @@ function identicalShallowBasic( test )
   test.case = 'Date - Date';
 
   var expected = true;
-  var got = _.entity.identicalShallow( new Date(), new Date() );
+  var src = new Date();
+  var got = _.entity.identicalShallow( src, src );
+  // var got = _.entity.identicalShallow( new Date(), new Date() );
   test.identical( got, expected );
 
   var expected = false;
